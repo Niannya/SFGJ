@@ -76,3 +76,17 @@ crashlytics-build.properties
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# MCP Unity（个人本地插件 + 桥接配置，不提交到仓库）
+/Packages/com.gamelovers.mcp-unity/
+/ProjectSettings/McpUnitySettings.json
+/ProjectSettings/McpUnitySettings.json.meta
+/Library/McpUnity/
+
+# Pixel Crushers Dialogue System（第三方对话插件，不提交到仓库）
+/Assets/Plugins/
+/Assets/Plugins.meta
+/Assets/Editor Default Resources/
+/Assets/Editor Default Resources.meta
+/Assets/Gizmos/
+/Assets/Gizmos.meta
