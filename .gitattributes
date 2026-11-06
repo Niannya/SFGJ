@@ -1,0 +1,58 @@
+# Unity project .gitattributes
+# Normalize every text file; let Git decide what is text.
+* text=auto
+
+# Unity YAML assets are text (serialized scenes, prefabs, asset databases)
+*.unity   text
+*.prefab  text
+*.asset   text
+*.mat     text
+*.controller text
+*.anim    text
+*.overrideController text
+*.physicMaterial text
+*.physicsMaterial2D text
+*.scenetemplate text
+*.meta    text
+*.json    text
+*.txt     text
+*.md      text
+*.shader  text
+*.shadergraph text
+*.hlsl    text
+*.cginc   text
+*.uss     text
+*.uxml    text
+
+# Binary asset formats - never diff or merge these as text
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.tga    binary
+*.psd    binary
+*.tif    binary
+*.exr    binary
+*.hdr    binary
+*.bmp    binary
+*.fbx    binary
+*.obj    binary
+*.blend  binary
+*.3ds    binary
+*.dae    binary
+*.wav    binary
+*.mp3    binary
+*.ogg    binary
+*.aif    binary
+*.aiff   binary
+*.mp4    binary
+*.mov    binary
+*.webm   binary
+*.ttf    binary
+*.otf    binary
+*.dll    binary
+*.so     binary
+*.dylib  binary
+*.a      binary
+*.lib    binary
+*.exe    binary
+*.unitypackage binary
