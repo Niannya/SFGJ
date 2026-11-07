@@ -19,6 +19,7 @@ public sealed class MapRingController : MonoBehaviour
     [SerializeField] private Camera mapCamera;
     [SerializeField] private CanvasGroup fadeOverlay;
     [SerializeField, Min(0.01f)] private float fadeSeconds = 0.4f;
+    [SerializeField, Min(0.01f)] private float sceneEntryFadeSeconds = 1f;
 
     private int currentRoom;
     private bool transitioning;
@@ -63,7 +64,9 @@ public sealed class MapRingController : MonoBehaviour
 
     private IEnumerator InitialReveal()
     {
-        yield return Fade(0f);
+        // Render the new scene fully black before starting its longer fade-in.
+        yield return null;
+        yield return Fade(0f, sceneEntryFadeSeconds);
         fadeOverlay.blocksRaycasts = false;
     }
 
@@ -98,7 +101,7 @@ public sealed class MapRingController : MonoBehaviour
         transitioning = true;
         player.SetCanMove(false);
         fadeOverlay.blocksRaycasts = true;
-        yield return Fade(1f);
+        yield return Fade(1f, fadeSeconds);
 
         int origin = currentRoom;
         rooms[currentRoom].root.SetActive(false);
@@ -113,7 +116,7 @@ public sealed class MapRingController : MonoBehaviour
         Physics2D.SyncTransforms();
         yield return null;
 
-        yield return Fade(0f);
+        yield return Fade(0f, fadeSeconds);
         fadeOverlay.blocksRaycasts = false;
         player.SetCanMove(true);
         transitioning = false;
@@ -129,15 +132,15 @@ public sealed class MapRingController : MonoBehaviour
         mapCamera.transform.position = new Vector3(center.x, center.y, mapCamera.transform.position.z);
     }
 
-    private IEnumerator Fade(float target)
+    private IEnumerator Fade(float target, float duration)
     {
         float initial = fadeOverlay.alpha;
         float elapsed = 0f;
-        while (elapsed < fadeSeconds)
+        while (elapsed < duration)
         {
-            elapsed += Time.unscaledDeltaTime;
-            fadeOverlay.alpha = Mathf.Lerp(initial, target, Mathf.Clamp01(elapsed / fadeSeconds));
+            fadeOverlay.alpha = Mathf.Lerp(initial, target, Mathf.Clamp01(elapsed / duration));
             yield return null;
+            elapsed += Time.unscaledDeltaTime;
         }
         fadeOverlay.alpha = target;
     }

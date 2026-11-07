@@ -7,13 +7,28 @@ public class SceneFader : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.4f;
     private Coroutine fadeInCoroutine;
 
+    public bool IsFadingIn => fadeInCoroutine != null;
+
+    // Allows an opening scene to create its overlay before this component starts.
+    public void Configure(CanvasGroup overlay)
+    {
+        fadeOverlay = overlay;
+        if (fadeOverlay != null) fadeOverlay.alpha = 1f;
+    }
+
     private void Awake()
     {
-        fadeOverlay.alpha = 1f;
+        if (fadeOverlay != null) fadeOverlay.alpha = 1f;
     }
 
     private void Start()
     {
+        if (fadeOverlay == null)
+        {
+            Debug.LogError("SceneFader needs a fade overlay.", this);
+            enabled = false;
+            return;
+        }
         fadeInCoroutine = StartCoroutine(FadeIn());
     }
 
@@ -35,6 +50,11 @@ public class SceneFader : MonoBehaviour
 
     public IEnumerator FadeOut()
     {
+        if (fadeOverlay == null)
+        {
+            Debug.LogError("SceneFader needs a fade overlay.", this);
+            yield break;
+        }
         if (fadeInCoroutine != null)
         {
             StopCoroutine(fadeInCoroutine);
