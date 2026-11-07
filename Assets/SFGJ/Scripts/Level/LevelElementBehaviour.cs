@@ -3,8 +3,12 @@ using UnityEngine;
 namespace SFGJ.Level
 {
     /// <summary>
-    /// 关卡元素组件。由关卡编辑器直接挂到场景对象上，标记元素的类型、占据的格子与关联信息。
-    /// 解密逻辑（开关开门、钥匙开门、压力板、触发器事件等）在此扩展。
+    /// 关卡元素组件（关卡即场景：直接挂在场景对象上）。
+    /// 只保存元素的基础数据（类型 / 格子 / 关联），功能逻辑按类型挂独立组件：
+    ///   - 传送点 Portal → <see cref="PortalBehaviour"/>
+    ///   - 钥匙 Key     → <see cref="KeyBehaviour"/>
+    ///   - NPC          → <see cref="NPCBehaviour"/>
+    ///   - 触发器 Trigger → <see cref="TriggerBehaviour"/>
     /// </summary>
     public class LevelElementBehaviour : MonoBehaviour
     {
@@ -23,8 +27,22 @@ namespace SFGJ.Level
         [Tooltip("关联目标 ID（例如门对应要用的钥匙、开关要打开的门）")]
         public string linkId;
 
-        [Tooltip("备注 / 对话标题 / 提示文字等自定义内容")]
+        [Tooltip("备注 / 提示文字等自定义内容")]
         public string note;
+
+        private void Awake()
+        {
+            SyncColliderTrigger();
+        }
+
+        /// <summary>根据类型同步碰撞体是否可穿过（Key/NPC 等实心，Trigger 等可穿过；Portal 交给 PortalBehaviour 控制）。</summary>
+        private void SyncColliderTrigger()
+        {
+            var col = GetComponent<Collider2D>();
+            if (col == null) return;
+            if (type == LevelElementType.Portal) return; // Portal 的碰撞器由 PortalBehaviour 按传送开关控制
+            col.isTrigger = !LevelPalette.IsSolid(type);
+        }
 
         /// <summary>玩家与元素交互（按键/点击）时调用。</summary>
         public virtual void Interact() { }

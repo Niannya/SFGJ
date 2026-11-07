@@ -13,7 +13,7 @@ namespace SFGJ.Level
             {
                 case LevelElementType.Wall:          return new Color(0.42f, 0.42f, 0.46f);
                 case LevelElementType.PlayerSpawn:   return new Color(0.25f, 0.80f, 0.35f);
-                case LevelElementType.Exit:          return new Color(1.00f, 0.82f, 0.20f);
+                case LevelElementType.Portal:        return new Color(1.00f, 0.82f, 0.20f);
                 case LevelElementType.Switch:        return new Color(1.00f, 0.55f, 0.15f);
                 case LevelElementType.Door:          return new Color(0.60f, 0.40f, 0.22f);
                 case LevelElementType.Key:           return new Color(0.20f, 0.80f, 0.90f);
@@ -31,7 +31,7 @@ namespace SFGJ.Level
             {
                 case LevelElementType.Wall:          return "墙";
                 case LevelElementType.PlayerSpawn:   return "出生点";
-                case LevelElementType.Exit:          return "出口";
+                case LevelElementType.Portal:        return "传送点";
                 case LevelElementType.Switch:        return "开关";
                 case LevelElementType.Door:          return "门";
                 case LevelElementType.Key:           return "钥匙";
@@ -48,7 +48,9 @@ namespace SFGJ.Level
         {
             return type == LevelElementType.Wall
                 || type == LevelElementType.Door
-                || type == LevelElementType.Pushable;
+                || type == LevelElementType.Pushable
+                || type == LevelElementType.Key
+                || type == LevelElementType.NPC;
         }
     }
 }

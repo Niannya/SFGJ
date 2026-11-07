@@ -16,10 +16,11 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
+        if (playerController == null) return;
         Vector2 direction = playerController.FacingDirection;
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            if (interactionUI.IsVisible)
+            if (interactionUI != null && interactionUI.IsVisible)
             {
                 interactionUI.Hide();
                 playerController.SetCanMove(true);
@@ -27,14 +28,19 @@ public class PlayerInteraction : MonoBehaviour
             }
             if (!playerController.CanMove) return;
 
+            // 关卡元素（钥匙/NPC）的碰撞体是 trigger，需临时开启 trigger 检测
+            bool prevQueriesHitTriggers = Physics2D.queriesHitTriggers;
+            Physics2D.queriesHitTriggers = true;
             RaycastHit2D hit = Physics2D.Raycast(interactionOrigin.position, direction, interactionDistance, interactionLayers);
+            Physics2D.queriesHitTriggers = prevQueriesHitTriggers;
+
             if (hit.collider != null)
             {
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
                 if (interactable != null)
                 {
                     interactable.Interact(interactionUI);
-                    if (interactionUI.IsVisible) playerController.SetCanMove(false);
+                    if (interactionUI != null && interactionUI.IsVisible) playerController.SetCanMove(false);
                 }
             }
         }

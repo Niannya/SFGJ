@@ -15,22 +15,22 @@ const PROPS = [
   { name: "bookshelf", view: "top-down", zh: "书架", prompt: "a wooden bookshelf filled with colorful books" },
   { name: "desk", view: "top-down", zh: "课桌", prompt: "a wooden school desk with an open book on top" },
   { name: "desk_fallen", view: "top-down", zh: "倒下的课桌", prompt: "an overturned fallen wooden school desk lying on its side" },
-  { name: "chair", view: "top-down", zh: "椅子", prompt: "a simple wooden chair" },
+  { name: "chair", view: "top-down", zh: "椅子", prompt: "a wooden chair with a very short backrest (backrest only one-third the total height) and four legs, low and compact" },
   { name: "table", view: "top-down", zh: "卧室桌子", prompt: "a small wooden bedside table with a drawer" },
   { name: "wardrobe", view: "top-down", zh: "衣柜", prompt: "a large wooden wardrobe closet" },
-  { name: "chair_bedroom", view: "front", zh: "卧室椅子", prompt: "a simple wooden chair with a backrest" },
+  { name: "chair_bedroom", view: "top-down", zh: "卧室椅子", prompt: "a simple wooden chair with a backrest" },
   { name: "window", view: "front", zh: "窗", prompt: "a window with wooden frame showing blue sky and white clouds" },
   { name: "bed", view: "top-down", zh: "床", prompt: "a single bed with a pillow and a folded blanket" },
   { name: "desk_office_v", view: "top-down", zh: "长条办公桌(竖)", prompt: "a long rectangular office desk (vertical orientation) with a computer monitor" },
-  { name: "desk_office_h", view: "top-down", zh: "长条办公桌(横)", prompt: "a long rectangular office desk (horizontal orientation) with papers" },
+  { name: "desk_office_h", view: "top-down", zh: "长条办公桌(横)", prompt: "a long rectangular office desk showing the tabletop and the front panel, with papers on top" },
   { name: "water_dispenser", view: "top-down", zh: "饮水机", prompt: "a water dispenser with a large water bottle on top" },
   { name: "blackboard", view: "front", zh: "黑板", prompt: "a blackboard with a dark green chalkboard surface and wooden frame" },
-  { name: "lamp", view: "front", zh: "台灯", prompt: "a simple plain table lamp with a cone lampshade and a straight base, minimal, no decoration" },
+  { name: "lamp", view: "top-down", zh: "台灯", prompt: "a simple plain table lamp with a cone lampshade and a straight base, minimal, no decoration" },
   { name: "trashbin", view: "top-down", zh: "垃圾桶", prompt: "a round trash bin" },
 ];
 
 const VIEW_HINT = {
-  "top-down": "top-down bird's-eye view, centered, seen from directly above",
+  "top-down": "three-quarter view from a high front angle, centered, classic 16-bit RPG object sprite (showing the front and a little of the top, like Zelda or Stardew Valley furniture, NOT a flat bird's-eye view)",
   "front": "front view facing the camera, centered",
 };
 

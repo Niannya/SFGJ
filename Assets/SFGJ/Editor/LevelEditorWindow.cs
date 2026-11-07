@@ -444,6 +444,23 @@ namespace SFGJ.LevelEditor
             col.size = new Vector2(full.x / s.x, full.y / s.y);
             col.isTrigger = !LevelPalette.IsSolid(type);
 
+            // 按类型挂对应的功能组件（避免所有元素共用一个脚本导致字段混乱）
+            switch (type)
+            {
+                case LevelElementType.Portal:
+                    go.AddComponent<PortalBehaviour>();
+                    break;
+                case LevelElementType.Key:
+                    go.AddComponent<KeyBehaviour>();
+                    break;
+                case LevelElementType.NPC:
+                    go.AddComponent<NPCBehaviour>();
+                    break;
+                case LevelElementType.Trigger:
+                    go.AddComponent<TriggerBehaviour>();
+                    break;
+            }
+
             go.transform.SetParent(GetOrCreateRoot(), true);
 
             Undo.RegisterCreatedObjectUndo(go, "放置元素");

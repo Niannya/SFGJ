@@ -9,6 +9,10 @@ public sealed class DialogueInteractable : MonoBehaviour, IInteractable
 
     public void Interact(InteractionUI interactionUI)
     {
+        // 未手动配置时自动查找玩家，避免引用丢失导致无法对话
+        if (playerController == null)
+            playerController = FindObjectOfType<PlayerController>();
+
         if (playerController == null || string.IsNullOrWhiteSpace(conversationTitle))
         {
             Debug.LogWarning("DialogueInteractable needs a player and conversation title.", this);
