@@ -48,7 +48,8 @@ namespace SFGJ.LevelEditor
                         {
                             var k = b.GetComponent<KeyBehaviour>();
                             if (k == null) k = b.gameObject.AddComponent<KeyBehaviour>();
-                            if (string.IsNullOrWhiteSpace(k.conversationTitle)) k.conversationTitle = "第一次对话";
+                            if (string.IsNullOrWhiteSpace(k.conversationTitle) || k.conversationTitle == "XXX")
+                                k.conversationTitle = ""; // 钥匙默认纯收集，不对话（清掉旧测试标题）
                             b.gameObject.layer = 6; // Interactable 层，让玩家按 Z 的 Raycast 能检测到
                             break;
                         }
@@ -56,13 +57,22 @@ namespace SFGJ.LevelEditor
                         {
                             var n = b.GetComponent<NPCBehaviour>();
                             if (n == null) n = b.gameObject.AddComponent<NPCBehaviour>();
-                            if (string.IsNullOrWhiteSpace(n.conversationTitle)) n.conversationTitle = "第一次对话";
+                            if (string.IsNullOrWhiteSpace(n.conversationTitle) || n.conversationTitle == "XXX")
+                                n.conversationTitle = "哥哥普通"; // 剧情默认：未集齐钥匙时的对话
                             b.gameObject.layer = 6; // Interactable 层，让玩家按 Z 的 Raycast 能检测到
                             break;
                         }
                     case LevelElementType.Trigger:
                         if (b.GetComponent<TriggerBehaviour>() == null)
                             b.gameObject.AddComponent<TriggerBehaviour>();
+                        break;
+                    case LevelElementType.Pushable:
+                        if (b.GetComponent<PushBlockBehaviour>() == null)
+                            b.gameObject.AddComponent<PushBlockBehaviour>();
+                        break;
+                    case LevelElementType.PushTrigger:
+                        if (b.GetComponent<PushTriggerBehaviour>() == null)
+                            b.gameObject.AddComponent<PushTriggerBehaviour>();
                         break;
                 }
             }
@@ -96,6 +106,22 @@ namespace SFGJ.LevelEditor
                     EditorUtility.SetDirty(col);
                     Debug.Log($"[修复] 「{b.name}」碰撞体 isTrigger = {shouldBeTrigger}");
                 }
+            }
+
+            // 5. 处理所有 NPC / 钥匙（包括手动创建、没挂 LevelElementBehaviour 的）
+            foreach (var n in Object.FindObjectsOfType<NPCBehaviour>())
+            {
+                if (string.IsNullOrWhiteSpace(n.conversationTitle) || n.conversationTitle == "XXX")
+                    n.conversationTitle = "哥哥普通";
+                if (n.gameObject.layer != 6) n.gameObject.layer = 6;
+                EditorUtility.SetDirty(n);
+                Debug.Log($"[修复] NPC「{n.name}」对话 → {n.conversationTitle}，层 → Interactable");
+            }
+            foreach (var k in Object.FindObjectsOfType<KeyBehaviour>())
+            {
+                if (k.conversationTitle == "XXX") k.conversationTitle = "";
+                if (k.gameObject.layer != 6) k.gameObject.layer = 6;
+                EditorUtility.SetDirty(k);
             }
 
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());

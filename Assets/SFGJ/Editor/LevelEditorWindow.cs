@@ -459,6 +459,12 @@ namespace SFGJ.LevelEditor
                 case LevelElementType.Trigger:
                     go.AddComponent<TriggerBehaviour>();
                     break;
+                case LevelElementType.Pushable:
+                    go.AddComponent<PushBlockBehaviour>();
+                    break;
+                case LevelElementType.PushTrigger:
+                    go.AddComponent<PushTriggerBehaviour>();
+                    break;
             }
 
             go.transform.SetParent(GetOrCreateRoot(), true);

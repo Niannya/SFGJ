@@ -15,6 +15,7 @@ namespace SFGJ.Level
         NPC = 6,           // NPC（交互：只触发对话）
         Trigger = 7,       // 触发器区域（进入时自动执行事件）
         PressurePlate = 8, // 压力板（踩上触发）
-        Pushable = 9,      // 可推动的物块
+        Pushable = 9,      // 可推动的物块（玩家推它向目标点移动一格）
+        PushTrigger = 10,  // 推块触发器（只检测推块是否进入，进入触发事件和对话）
     }
 }

@@ -21,6 +21,7 @@ namespace SFGJ.Level
                 case LevelElementType.Trigger:       return new Color(0.62f, 0.40f, 1.00f);
                 case LevelElementType.PressurePlate: return new Color(1.00f, 0.45f, 0.70f);
                 case LevelElementType.Pushable:      return new Color(0.82f, 0.68f, 0.45f);
+                case LevelElementType.PushTrigger:   return new Color(0.95f, 0.35f, 0.72f);
                 default:                              return Color.gray;
             }
         }
@@ -39,6 +40,7 @@ namespace SFGJ.Level
                 case LevelElementType.Trigger:       return "触发器";
                 case LevelElementType.PressurePlate: return "压力板";
                 case LevelElementType.Pushable:      return "推块";
+                case LevelElementType.PushTrigger:   return "推块触发器";
                 default:                              return type.ToString();
             }
         }
