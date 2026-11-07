@@ -76,3 +76,11 @@ crashlytics-build.properties
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Pixel Crushers Dialogue System (third-party plugin; install locally)
+/Assets/Plugins/
+/Assets/Plugins.meta
+/Assets/Editor Default Resources/
+/Assets/Editor Default Resources.meta
+/Assets/Gizmos/
+/Assets/Gizmos.meta
