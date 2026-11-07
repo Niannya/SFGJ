@@ -25,6 +25,8 @@ public class PlayerInteraction : MonoBehaviour
                 playerController.SetCanMove(true);
                 return;
             }
+            if (!playerController.CanMove) return;
+
             RaycastHit2D hit = Physics2D.Raycast(interactionOrigin.position, direction, interactionDistance, interactionLayers);
             if (hit.collider != null)
             {
@@ -32,7 +34,7 @@ public class PlayerInteraction : MonoBehaviour
                 if (interactable != null)
                 {
                     interactable.Interact(interactionUI);
-                    playerController.SetCanMove(false);
+                    if (interactionUI.IsVisible) playerController.SetCanMove(false);
                 }
             }
         }

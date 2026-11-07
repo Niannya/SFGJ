@@ -3,13 +3,13 @@
 * text=auto
 
 # Unity YAML assets are text (serialized scenes, prefabs, asset databases)
-*.unity   text
-*.prefab  text
-*.asset   text
-*.mat     text
-*.controller text
-*.anim    text
-*.overrideController text
+*.unity   text merge=unityyamlmerge
+*.prefab  text merge=unityyamlmerge
+*.asset   text merge=unityyamlmerge
+*.mat     text merge=unityyamlmerge
+*.controller text merge=unityyamlmerge
+*.anim    text merge=unityyamlmerge
+*.overrideController text merge=unityyamlmerge
 *.physicMaterial text
 *.physicsMaterial2D text
 *.scenetemplate text
