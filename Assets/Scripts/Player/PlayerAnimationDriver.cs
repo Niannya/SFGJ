@@ -26,15 +26,11 @@ public sealed class PlayerAnimationDriver : MonoBehaviour
         int direction;
 
         if (Mathf.Abs(facing.x) >= Mathf.Abs(facing.y))
-        {
-            visual.flipX = facing.x < 0f;
-            direction = 2;
-        }
+            direction = facing.x < 0f ? 2 : 3; // 左、右
         else
-        {
-            visual.flipX = false;
-            direction = facing.y > 0f ? 1 : 0;
-        }
+            direction = facing.y > 0f ? 1 : 0; // 上、下
+
+        visual.flipX = false; // 左右现在各有自己的原画
 
         animator.SetInteger(Direction, direction);
         animator.SetBool(Moving, moving);
