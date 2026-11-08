@@ -957,6 +957,7 @@ GameObject:
   - component: {fileID: 200120153}
   - component: {fileID: 200120152}
   - component: {fileID: 200120157}
+  - component: {fileID: 200120158}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1136,6 +1137,29 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   interactionUI: {fileID: 734841202}
+--- !u!114 &200120158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200120151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c094aa452ac44a5498e8dfe6d73326d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSortingOrder: 3
+  rayDistance: 1.5
+  faceDotThreshold: 0.5
+  rayOrigin: {fileID: 200120156}
+  glowMaterial: {fileID: 2100000, guid: 155b0ee5c6387be409644d1de89763b5, type: 2}
+  glowScale: 1.12
+  glowSortingOrder: 1
+  pulse: 1
+  pulseSpeed: 4
+  minAlpha: 0.45
+  maxAlpha: 1
 --- !u!1 &221189196
 GameObject:
   m_ObjectHideFlags: 0
@@ -23867,7 +23891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2900006041}
   - component: {fileID: 2900006042}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: R1_Doctor_Placeholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

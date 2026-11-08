@@ -348,11 +348,13 @@ MonoBehaviour:
     m_Bits: 64
   rayDistance: 1.5
   rayOrigin: {fileID: 0}
-  glowMaterial: {fileID: 2100000, guid: 0176f846673c0984d91af88f8380d2b5, type: 2}
+  glowMaterial: {fileID: 2100000, guid: 155b0ee5c6387be409644d1de89763b5, type: 2}
+  glowScale: 1.12
+  glowSortingOrder: 1
   pulse: 1
   pulseSpeed: 4
-  baseGlowStrength: 1
-  pulseAmount: 0.4
+  minAlpha: 0.45
+  maxAlpha: 1
 --- !u!1 &7802280613297568552
 GameObject:
   m_ObjectHideFlags: 0
