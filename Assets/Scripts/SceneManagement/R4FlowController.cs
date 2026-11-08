@@ -58,6 +58,9 @@ public sealed class R4FlowController : MonoBehaviour
     private bool missingConversationLogged;
     private int conversationStartFrame;
 
+    public bool IsMazeActive => ring != null && ring.CurrentRoom == 4 &&
+                                mazeSet != null && mazeSet.activeInHierarchy;
+
     private void Awake()
     {
         Initialize();
