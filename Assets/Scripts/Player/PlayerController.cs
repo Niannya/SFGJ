@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 facingDirection = Vector2.down;
     public Vector2 FacingDirection => facingDirection;
+    public Vector2 MoveInput => moveInput;
     public bool CanMove => canMove;
 
     private Rigidbody2D rb;
