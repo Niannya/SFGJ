@@ -190,6 +190,7 @@ public sealed class R7FlowController : MonoBehaviour
 
     private IEnumerator BalloonToMother()
     {
+        GameAudioDirector.PlayBalloon();
         Vector3 from = balloon.position;
         Vector3 to = mother.position + Vector3.up * 1.2f;
         float elapsed = 0f;

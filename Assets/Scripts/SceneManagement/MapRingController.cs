@@ -104,6 +104,7 @@ public sealed class MapRingController : MonoBehaviour
     private IEnumerator Transition(MapPortal portal)
     {
         transitioning = true;
+        GameAudioDirector.PlayDoor();
         // The dialogue UI is shared by all room roots, so old hints outlive a room unless cleared.
         if (DialogueManager.hasInstance) DialogueManager.HideAllAlerts();
         player.SetCanMove(false);
