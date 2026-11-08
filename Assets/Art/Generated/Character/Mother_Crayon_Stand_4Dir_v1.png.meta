@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -95,7 +95,91 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Mother_Down
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 630.5
+        width: 623.5
+        height: 630.5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebcb950bb3933f44b9478a402f683964
+      internalID: -1303684472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mother_Up
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 630.5
+        width: 623.5
+        height: 630.5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d26b62476b2e65c409ede14bd0aa4fdb
+      internalID: 1722717834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mother_Left
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0.5
+        width: 623.5
+        height: 630.5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dec9cd5977f11fa4383a7ebec05b37c3
+      internalID: -2126587987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mother_Right
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 0.5
+        width: 623.5
+        height: 630.5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4193a0556b750294a91e721479177630
+      internalID: 1286009031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -106,7 +190,11 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Mother_Down: -1303684472
+      Mother_Left: -2126587987
+      Mother_Right: 1286009031
+      Mother_Up: 1722717834
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

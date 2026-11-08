@@ -1,4 +1,5 @@
 using System.Collections;
+using PixelCrushers.DialogueSystem;
 using UnityEngine;
 
 /// <summary>Controls the nine rooms in one Unity scene. Room roots remain visible in Edit Mode.</summary>
@@ -40,6 +41,10 @@ public sealed class MapRingController : MonoBehaviour
             enabled = false;
             return;
         }
+
+        // A zero-scaled screen-space canvas makes the fade alpha animate invisibly.
+        Canvas fadeCanvas = fadeOverlay.GetComponentInParent<Canvas>();
+        if (fadeCanvas != null) fadeCanvas.transform.localScale = Vector3.one;
 
         currentRoom = Mathf.Clamp(startRoom, 0, rooms.Length - 1);
         for (int i = 0; i < rooms.Length; i++)
@@ -99,12 +104,15 @@ public sealed class MapRingController : MonoBehaviour
     private IEnumerator Transition(MapPortal portal)
     {
         transitioning = true;
+        // The dialogue UI is shared by all room roots, so old hints outlive a room unless cleared.
+        if (DialogueManager.hasInstance) DialogueManager.HideAllAlerts();
         player.SetCanMove(false);
         fadeOverlay.blocksRaycasts = true;
         yield return Fade(1f, fadeSeconds);
 
         int origin = currentRoom;
         rooms[currentRoom].root.SetActive(false);
+        if (DialogueManager.hasInstance) DialogueManager.HideAllAlerts();
         currentRoom = portal.DestinationRoom;
         rooms[currentRoom].root.SetActive(true);
         PlacePlayerAndCamera(currentRoom, portal.DestinationSpawn);

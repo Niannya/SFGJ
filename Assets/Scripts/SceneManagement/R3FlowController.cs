@@ -13,6 +13,8 @@ public sealed class R3FlowController : MonoBehaviour
 
     [SerializeField] private MapRingController ring;
     [SerializeField] private PlayerController player;
+    [SerializeField] private Camera mapCamera;
+    [SerializeField] private SpriteRenderer background;
     [SerializeField] private CanvasGroup mapFadeOverlay;
     [SerializeField] private Transform sister;
     [SerializeField] private Transform father;
@@ -27,12 +29,19 @@ public sealed class R3FlowController : MonoBehaviour
 
     private void Awake()
     {
+        if (mapCamera == null) mapCamera = Camera.main;
+        if (background == null)
+        {
+            Transform image = transform.Find("R3_PlaygroundEntrance_Background");
+            if (image != null) background = image.GetComponent<SpriteRenderer>();
+        }
         if (exitPortalCollider == null)
         {
             Transform exit = transform.Find("ForwardPortal_to_r4_West");
             if (exit != null) exitPortalCollider = exit.GetComponent<BoxCollider2D>();
         }
-        if (ring == null || player == null || mapFadeOverlay == null || sister == null ||
+        if (ring == null || player == null || mapCamera == null || background == null ||
+            mapFadeOverlay == null || sister == null ||
             father == null || doctor == null || exitPortalCollider == null)
         {
             Debug.LogError("R3FlowController has an unassigned scene reference.", this);
@@ -60,12 +69,11 @@ public sealed class R3FlowController : MonoBehaviour
 
     private void PrepareExit()
     {
-        // The topology editor tool can recreate portals. Keep its destination/rules,
-        // but place this room's exit at the illustrated park gate.
+        // Preserve the exit's scene-authored position for the current background.
+        // Only its availability changes when the family conversation completes.
         Transform exit = transform.Find("ForwardPortal_to_r4_West");
         if (exit == null) return;
         exitPortalCollider = exit.GetComponent<BoxCollider2D>();
-        exit.localPosition = new Vector3(0f, 4.3f, 0f);
         if (exitPortalCollider != null) exitPortalCollider.enabled = familyComplete;
     }
 
@@ -89,6 +97,20 @@ public sealed class R3FlowController : MonoBehaviour
         if (!familyComplete || doctorComplete || !player.CanMove || !Input.GetKeyDown(KeyCode.Z)) return;
         if (Vector2.Distance(player.transform.position, doctor.position) <= 1.6f)
             StartStoryConversation(DoctorConversation, player.transform, doctor);
+    }
+
+    private void LateUpdate()
+    {
+        if (!initialized || ring.CurrentRoom != 3) return;
+        Bounds imageBounds = background.bounds;
+        float cameraHalfWidth = mapCamera.orthographicSize * mapCamera.aspect;
+        float minX = imageBounds.min.x + cameraHalfWidth;
+        float maxX = imageBounds.max.x - cameraHalfWidth;
+        float cameraX = minX <= maxX
+            ? Mathf.Clamp(player.transform.position.x, minX, maxX)
+            : imageBounds.center.x;
+        Vector3 current = mapCamera.transform.position;
+        mapCamera.transform.position = new Vector3(cameraX, transform.position.y, current.z);
     }
 
     private void StartStoryConversation(string title, Transform actor, Transform conversant)

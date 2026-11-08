@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -95,7 +95,91 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Sister_Crayon_Stand_4Dir_v1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 630.5
+        width: 623.5
+        height: 630.5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f78678ab898c90c449f01a470eeae726
+      internalID: -144379297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sister_Crayon_Stand_4Dir_v1_1
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 630.5
+        width: 623.5
+        height: 630.5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 575eef78221b62a459cbf3d555162b3b
+      internalID: 187690735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sister_Crayon_Stand_4Dir_v1_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0.5
+        width: 623.5
+        height: 630.5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fea7a5ef4ab924b4484307629dd0a303
+      internalID: 1735263626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sister_Crayon_Stand_4Dir_v1_3
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 0.5
+        width: 623.5
+        height: 630.5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb9e266bce96d534687a5971ab59b00a
+      internalID: 1876964615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -106,7 +190,11 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Sister_Crayon_Stand_4Dir_v1_0: -144379297
+      Sister_Crayon_Stand_4Dir_v1_1: 187690735
+      Sister_Crayon_Stand_4Dir_v1_2: 1735263626
+      Sister_Crayon_Stand_4Dir_v1_3: 1876964615
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

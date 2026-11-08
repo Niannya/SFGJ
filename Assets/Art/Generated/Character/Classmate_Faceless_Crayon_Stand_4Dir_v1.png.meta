@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -95,7 +95,91 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Classmate_Down
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 630.5
+        width: 623.5
+        height: 630.5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20e50ba32e30fc84c9f023943f8ea41a
+      internalID: 622659527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classmate_Up
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 630.5
+        width: 623.5
+        height: 630.5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36e3da9bb71a3da46965ab38c58edf97
+      internalID: 2071590350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classmate_Left
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0.5
+        width: 623.5
+        height: 630.5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63ccc04841acc9449abcf7c4323c7ff3
+      internalID: 1540905772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Classmate_Right
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 0.5
+        width: 623.5
+        height: 630.5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30dace3bb47e151428d16f4b8e4e088b
+      internalID: -768325234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -106,7 +190,11 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Classmate_Down: 622659527
+      Classmate_Left: 1540905772
+      Classmate_Right: -768325234
+      Classmate_Up: 2071590350
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

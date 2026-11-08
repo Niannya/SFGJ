@@ -2,13 +2,15 @@ using System.Collections.Generic;
 using PixelCrushers.DialogueSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>Stages the first living-room visit and the changed response after R8.</summary>
 public sealed class R1FlowController : MonoBehaviour
 {
     private const string FirstIntro = "R1_初次_开场";
-    private const string SecondIntro = "R1_二周目_开场";
+    private const string EndingConversation = "R1_结束";
+    private const string EndingSceneName = "EndingScene";
     private const string FatherFamily = "R1_父亲与妹妹";
     private const string MotherFamily = "R1_母亲与哥哥";
     private const string DoctorIntro = "R1_医生_初次";
@@ -36,7 +38,7 @@ public sealed class R1FlowController : MonoBehaviour
     private int initializedSession = -1;
     private bool entered;
     private bool firstIntroSeen;
-    private bool secondIntroSeen;
+    private bool endingTransitioning;
     private bool fatherSeen;
     private bool motherSeen;
     private bool doctorIntroSeen;
@@ -52,7 +54,12 @@ public sealed class R1FlowController : MonoBehaviour
     private bool reportedMissingConversation;
 
     private void Awake() => Initialize();
-    private void OnEnable() => Initialize();
+    private void OnEnable()
+    {
+        Initialize();
+        // Never carry the first visit's unlocked exit into the return from R8.
+        if (exitPortalCollider != null) exitPortalCollider.enabled = false;
+    }
 
     private void Initialize()
     {
@@ -74,7 +81,7 @@ public sealed class R1FlowController : MonoBehaviour
         {
             entered = false;
             firstIntroSeen = false;
-            secondIntroSeen = false;
+            endingTransitioning = false;
             fatherSeen = false;
             motherSeen = false;
             doctorIntroSeen = false;
@@ -95,13 +102,10 @@ public sealed class R1FlowController : MonoBehaviour
     private void PrepareRoomEntry()
     {
         entered = true;
-        exitPortalCollider.enabled = storyComplete;
+        exitPortalCollider.enabled = !ring.FirstCycleComplete && storyComplete;
         Debug.Log($"R1 room entered: secondCycle={ring.FirstCycleComplete}, storyComplete={storyComplete}", this);
-        if (ring.FirstCycleComplete)
-        {
-            if (!secondIntroSeen) QueueConversation(SecondIntro, mother, player.transform);
-        }
-        else if (!firstIntroSeen) QueueConversation(FirstIntro, mother, player.transform);
+        if (!ring.FirstCycleComplete && !firstIntroSeen)
+            QueueConversation(FirstIntro, mother, player.transform);
     }
 
     private void QueueConversation(string title, Transform actor, Transform conversant)
@@ -133,6 +137,13 @@ public sealed class R1FlowController : MonoBehaviour
         if (activeConversation != null)
         {
             ContinueDialogueInput();
+            return;
+        }
+        if (ring.FirstCycleComplete)
+        {
+            if (!endingTransitioning && player.CanMove && Input.GetKeyDown(KeyCode.Z) &&
+                Vector2.Distance(player.transform.position, doctor.position) <= 1.7f)
+                StartStoryConversation(EndingConversation, player.transform, doctor);
             return;
         }
         if (waitingChoice)
@@ -247,7 +258,12 @@ public sealed class R1FlowController : MonoBehaviour
             firstIntroSeen = true;
             DialogueManager.ShowAlert("靠近家人或医生，按 Z 交谈。", 4f);
         }
-        else if (ended == SecondIntro) secondIntroSeen = true;
+        else if (ended == EndingConversation)
+        {
+            endingTransitioning = true;
+            StartCoroutine(FadeToEndingScene());
+            return;
+        }
         else if (ended == FatherFamily) fatherSeen = true;
         else if (ended == MotherFamily) motherSeen = true;
         else if (ended == DoctorIntro)
@@ -274,6 +290,24 @@ public sealed class R1FlowController : MonoBehaviour
             DialogueManager.ShowAlert("可从南侧前往 R2。", 4f);
         }
         player.SetCanMove(true);
+    }
+
+    private System.Collections.IEnumerator FadeToEndingScene()
+    {
+        player.SetCanMove(false);
+        DialogueManager.HideAllAlerts();
+        mapFadeOverlay.blocksRaycasts = true;
+        float startAlpha = mapFadeOverlay.alpha;
+        float elapsed = 0f;
+        const float duration = 0.4f;
+        while (elapsed < duration)
+        {
+            mapFadeOverlay.alpha = Mathf.Lerp(startAlpha, 1f, elapsed / duration);
+            yield return null;
+            elapsed += Time.unscaledDeltaTime;
+        }
+        mapFadeOverlay.alpha = 1f;
+        SceneManager.LoadScene(EndingSceneName);
     }
 
     private void ContinueDialogueInput()

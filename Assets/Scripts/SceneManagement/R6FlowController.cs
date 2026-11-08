@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-/// <summary>Runs the bedroom memory: collect three doll pieces and return them to the brother.</summary>
+/// <summary>Collect three doll pieces, return them to the brother, then continue.</summary>
 public sealed class R6FlowController : MonoBehaviour
 {
     private const string MotherConversation = "R6_母亲_训斥";
@@ -19,6 +19,7 @@ public sealed class R6FlowController : MonoBehaviour
     [SerializeField] private Transform brother;
     [SerializeField] private Transform doctor;
     [SerializeField] private Transform[] dollPieces;
+    // The assembled doll visual is optional; collecting the pieces is not.
     [SerializeField] private GameObject restoredDoll;
     [SerializeField] private BoxCollider2D exitPortalCollider;
 
@@ -42,14 +43,17 @@ public sealed class R6FlowController : MonoBehaviour
     private void Initialize()
     {
         if (initialized) return;
+        // The previous controller version did not serialize this field, so recover it
+        // from the existing room hierarchy when upgrading an already-saved scene.
+        if (brother == null) brother = transform.Find("R6_BedroomSet/R6_Brother_Sitting");
         if (exitPortalCollider == null)
         {
             Transform portal = transform.Find("ForwardPortal_to_r7_East");
             if (portal != null) exitPortalCollider = portal.GetComponent<BoxCollider2D>();
         }
         if (ring == null || r6Database == null || player == null || mapFadeOverlay == null ||
-            mother == null || brother == null || doctor == null || restoredDoll == null ||
-            exitPortalCollider == null || dollPieces == null || dollPieces.Length != 3 ||
+            mother == null || brother == null || doctor == null || exitPortalCollider == null ||
+            dollPieces == null || dollPieces.Length != 3 ||
             dollPieces[0] == null || dollPieces[1] == null || dollPieces[2] == null)
         {
             Debug.LogError("R6FlowController has an unassigned scene reference.", this);
@@ -70,7 +74,7 @@ public sealed class R6FlowController : MonoBehaviour
     {
         mother.gameObject.SetActive(!repaired);
         doctor.gameObject.SetActive(repaired);
-        restoredDoll.SetActive(repaired);
+        if (restoredDoll != null) restoredDoll.SetActive(repaired);
         for (int i = 0; i < dollPieces.Length; i++)
             dollPieces[i].gameObject.SetActive(!repaired && !collected[i]);
         exitPortalCollider.enabled = repaired;
@@ -82,7 +86,7 @@ public sealed class R6FlowController : MonoBehaviour
         pendingActor = actor;
         pendingConversant = conversant;
         reportedMissingConversation = false;
-        player.SetCanMove(false);
+        // Only a conversation that actually starts may hold player movement.
     }
 
     private void Update()
@@ -94,12 +98,20 @@ public sealed class R6FlowController : MonoBehaviour
         if (pendingConversation != null)
         {
             if (!mapFadeOverlay.blocksRaycasts && DialogueManager.hasInstance &&
-                !DialogueManager.isConversationActive &&
-                StartStoryConversation(pendingConversation, pendingActor, pendingConversant))
+                !DialogueManager.isConversationActive)
             {
-                pendingConversation = null;
-                pendingActor = null;
-                pendingConversant = null;
+                string title = pendingConversation;
+                if (StartStoryConversation(title, pendingActor, pendingConversant) || reportedMissingConversation)
+                {
+                    pendingConversation = null;
+                    pendingActor = null;
+                    pendingConversant = null;
+                    if (reportedMissingConversation && title == MotherConversation)
+                    {
+                        motherFinished = true;
+                        ApplyVisuals();
+                    }
+                }
             }
             return;
         }
@@ -118,7 +130,7 @@ public sealed class R6FlowController : MonoBehaviour
                 {
                     collected[i] = true;
                     dollPieces[i].gameObject.SetActive(false);
-                    DialogueManager.ShowAlert($"娃娃碎片 {CollectedCount}/3", 2f);
+                    DialogueManager.ShowAlert($"娃娃碎片 {CollectedCount}/3", 1.5f);
                     return;
                 }
             }
@@ -128,9 +140,9 @@ public sealed class R6FlowController : MonoBehaviour
                 {
                     repaired = true;
                     ApplyVisuals();
-                    DialogueManager.ShowAlert("娃娃拼好并交给了萌兰。", 3f);
+                    DialogueManager.ShowAlert("娃娃拼好并交给了萌兰。", 1.5f);
                 }
-                else DialogueManager.ShowAlert($"还需寻找 {3 - CollectedCount} 片娃娃碎片。", 2f);
+                else DialogueManager.ShowAlert($"还需寻找 {3 - CollectedCount} 片娃娃碎片。", 1.5f);
             }
         }
         else if (doctorTalks < 2 && Vector2.Distance(player.transform.position, doctor.position) <= 1.6f)
@@ -205,7 +217,7 @@ public sealed class R6FlowController : MonoBehaviour
         if (ended == MotherConversation)
         {
             motherFinished = true;
-            DialogueManager.ShowAlert("按 Z 拾起地上的三片娃娃碎片。", 4f);
+            DialogueManager.ShowAlert("按 Z 拾起地上的三片娃娃碎片。", 1.5f);
         }
         else if (ended == DoctorFirstConversation) doctorTalks = 1;
         else if (ended == DoctorSecondConversation) doctorTalks = 2;

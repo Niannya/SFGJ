@@ -67,6 +67,7 @@ public sealed class R4FlowController : MonoBehaviour
     {
         // With Scene Reload disabled, an existing scene object can enter Play Mode without Awake.
         Initialize();
+        if (initialized) EnsureBlackoutVisual();
         if (Application.isPlaying)
             Debug.Log($"R4 controller enabled: initialized={initialized}, room={(ring == null ? -1 : ring.CurrentRoom)}", this);
     }
@@ -89,8 +90,23 @@ public sealed class R4FlowController : MonoBehaviour
             enabled = false;
             return;
         }
+        EnsureBlackoutVisual();
         SetBlackAlpha(0f);
         initialized = true;
+    }
+
+    private void EnsureBlackoutVisual()
+    {
+        if (blackoutRenderer.sprite == null)
+        {
+            Texture2D texture = Texture2D.whiteTexture;
+            blackoutRenderer.sprite = Sprite.Create(texture,
+                new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), texture.width);
+        }
+        blackoutRenderer.transform.localScale = new Vector3(100f, 100f, 1f);
+        Color color = blackoutRenderer.color;
+        color.r = color.g = color.b = 0f;
+        blackoutRenderer.color = color;
     }
 
     private void PrepareRoomEntry()
