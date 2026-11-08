@@ -9,6 +9,10 @@ public class PlayerInteraction : MonoBehaviour
     private PlayerController playerController;
     [SerializeField] private InteractionUI interactionUI;
 
+    public Transform InteractionOrigin => interactionOrigin;
+    public float InteractionDistance => interactionDistance;
+    public LayerMask InteractionLayers => interactionLayers;
+
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();

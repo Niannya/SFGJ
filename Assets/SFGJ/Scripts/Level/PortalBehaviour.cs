@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SFGJ.Level
 {
@@ -17,6 +18,10 @@ namespace SFGJ.Level
         [Header("落点（可选）")]
         [Tooltip("别的传送点传过来时玩家落在哪里；留空则用自身中心。建议摆一个在触发区外的子对象，避免刚落地就被弹回去")]
         public Transform arrivalPoint;
+
+        [Header("事件")]
+        [Tooltip("传送发生时触发（在淡入淡出黑屏中瞬移的瞬间）")]
+        public UnityEvent onTeleport;
 
         [SerializeField]
         [Tooltip("是否允许传送")]
@@ -82,7 +87,7 @@ namespace SFGJ.Level
             _playerInside = false;
         }
 
-        private void TryTeleport(Collider2D player)
+        public void TryTeleport(Collider2D player)
         {
             if (!canTeleport) return;
             if (portalDestination == null) return;
@@ -108,6 +113,7 @@ namespace SFGJ.Level
                     }
                     player.transform.position = destination;
                     Physics2D.SyncTransforms();
+                    onTeleport?.Invoke();
                 },
                 () => _lastArrivalTime = Time.unscaledTime);
         }
