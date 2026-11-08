@@ -53,7 +53,7 @@ public sealed class R8FlowController : MonoBehaviour
         }
         doctorRenderer = doctor == null ? null : doctor.GetComponent<SpriteRenderer>();
         if (ring == null || r8Database == null || player == null || mapFadeOverlay == null ||
-            sister == null || father == null || doctor == null || drawingSymbols == null ||
+            sister == null || father == null || doctor == null ||
             doctorRenderer == null || exitPortalCollider == null)
         {
             Debug.LogError("R8FlowController has an unassigned scene reference.", this);
@@ -81,12 +81,11 @@ public sealed class R8FlowController : MonoBehaviour
         entered = true;
         ApplyVisuals();
         if (!familyFinished) QueueConversation(FamilyConversation, sister, father);
-        else if (!doctorFinished) QueueConversation(DoctorConversation, player.transform, doctor);
     }
 
     private void ApplyVisuals()
     {
-        drawingSymbols.SetActive(familyFinished);
+        if (drawingSymbols != null) drawingSymbols.SetActive(familyFinished);
         doctor.gameObject.SetActive(familyFinished && !doctorFinished);
         SetDoctorAlpha(1f);
         exitPortalCollider.enabled = exitUnlocked;
@@ -105,7 +104,7 @@ public sealed class R8FlowController : MonoBehaviour
         pendingActor = actor;
         pendingConversant = conversant;
         reportedMissingConversation = false;
-        player.SetCanMove(false);
+        // Wait for the dialogue to start before locking movement.
     }
 
     private void Update()
@@ -117,16 +116,31 @@ public sealed class R8FlowController : MonoBehaviour
         if (pendingConversation != null)
         {
             if (!mapFadeOverlay.blocksRaycasts && DialogueManager.hasInstance &&
-                !DialogueManager.isConversationActive &&
-                StartStoryConversation(pendingConversation, pendingActor, pendingConversant))
+                !DialogueManager.isConversationActive)
             {
-                pendingConversation = null;
-                pendingActor = null;
-                pendingConversant = null;
+                string title = pendingConversation;
+                if (StartStoryConversation(title, pendingActor, pendingConversant) || reportedMissingConversation)
+                {
+                    pendingConversation = null;
+                    pendingActor = null;
+                    pendingConversant = null;
+                    if (reportedMissingConversation && title == FamilyConversation)
+                    {
+                        familyFinished = true;
+                        ApplyVisuals();
+                    }
+                }
             }
             return;
         }
-        if (activeConversation != null) ContinueDialogueInput();
+        if (activeConversation != null)
+        {
+            ContinueDialogueInput();
+            return;
+        }
+        if (familyFinished && !doctorFinished && player.CanMove && Input.GetKeyDown(KeyCode.Z) &&
+            Vector2.Distance(player.transform.position, doctor.position) <= 1.6f)
+            StartStoryConversation(DoctorConversation, player.transform, doctor);
     }
 
     private bool StartStoryConversation(string title, Transform actor, Transform conversant)
@@ -192,9 +206,9 @@ public sealed class R8FlowController : MonoBehaviour
         if (ended == FamilyConversation)
         {
             familyFinished = true;
-            drawingSymbols.SetActive(true);
-            doctor.gameObject.SetActive(true);
-            QueueConversation(DoctorConversation, player.transform, doctor);
+            ApplyVisuals();
+            player.SetCanMove(true);
+            DialogueManager.ShowAlert("靠近医生按 Z 交谈。", 1.5f);
         }
         else if (ended == DoctorConversation)
         {
@@ -218,7 +232,7 @@ public sealed class R8FlowController : MonoBehaviour
         exitUnlocked = true;
         exitPortalCollider.enabled = true;
         player.SetCanMove(true);
-        DialogueManager.ShowAlert("可从南侧前往 R1。", 4f);
+        DialogueManager.ShowAlert("可从南侧前往 R1。", 1.5f);
     }
 
     private void ContinueDialogueInput()

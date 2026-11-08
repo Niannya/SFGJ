@@ -61,17 +61,14 @@ public sealed class R2FlowController : MonoBehaviour
 
     private void PrepareRoom()
     {
-        // The topology builder may recreate these children. Keep its MapPortal wiring,
-        // but present this long room's forward door at the right end.
+        // Keep the portals at their scene-authored positions so they stay aligned
+        // with the classroom background while retaining their access rules.
         Transform exit = transform.Find("ForwardPortal_to_r3_West");
         if (exit != null)
         {
             exitPortalCollider = exit.GetComponent<BoxCollider2D>();
-            exit.localPosition = new Vector3(26.3f, -3.2f, 0f);
             if (exitPortalCollider != null) exitPortalCollider.enabled = dollReceived;
         }
-        Transform returnDoor = transform.Find("BackPortal_to_r1_North");
-        if (returnDoor != null) returnDoor.localPosition = new Vector3(-8.2f, -3.2f, 0f);
         Transform eastWall = transform.Find("Wall_East");
         if (eastWall != null)
         {
@@ -94,7 +91,8 @@ public sealed class R2FlowController : MonoBehaviour
         playerBody.velocity = Vector2.zero;
         playerBody.position = world;
         player.transform.position = world;
-        playerBody.constraints = originalConstraints | RigidbodyConstraints2D.FreezePositionY;
+        // The classroom floor is bounded by scene colliders; keep both movement axes available.
+        playerBody.constraints = originalConstraints;
         Physics2D.SyncTransforms();
 
         while (isActiveAndEnabled && mapFadeOverlay.blocksRaycasts) yield return null;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using PixelCrushers.DialogueSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,6 +56,10 @@ public sealed class MapRingController : MonoBehaviour
             enabled = false;
             return;
         }
+
+        // A zero-scaled screen-space canvas makes the fade alpha animate invisibly.
+        Canvas fadeCanvas = fadeOverlay.GetComponentInParent<Canvas>();
+        if (fadeCanvas != null) fadeCanvas.transform.localScale = Vector3.one;
 
         currentRoom = Mathf.Clamp(startRoom, 0, rooms.Length - 1);
         _visitedRooms.Add(currentRoom);
@@ -117,6 +122,8 @@ public sealed class MapRingController : MonoBehaviour
     private IEnumerator Transition(MapPortal portal)
     {
         transitioning = true;
+        // The dialogue UI is shared by all room roots, so old hints outlive a room unless cleared.
+        if (DialogueManager.hasInstance) DialogueManager.HideAllAlerts();
         player.SetCanMove(false);
         fadeOverlay.blocksRaycasts = true;
 
@@ -126,6 +133,7 @@ public sealed class MapRingController : MonoBehaviour
         // 2. 换房间（在黑屏中完成）
         int origin = currentRoom;
         rooms[currentRoom].root.SetActive(false);
+        if (DialogueManager.hasInstance) DialogueManager.HideAllAlerts();
         currentRoom = portal.DestinationRoom;
         _visitedRooms.Add(currentRoom);
         rooms[currentRoom].root.SetActive(true);
