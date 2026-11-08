@@ -67,7 +67,11 @@ public sealed class R4FlowController : MonoBehaviour
     {
         // With Scene Reload disabled, an existing scene object can enter Play Mode without Awake.
         Initialize();
-        if (initialized) EnsureBlackoutVisual();
+        if (initialized)
+        {
+            EnsureBlackoutVisual();
+            SetBlackAlpha(0f);
+        }
         if (Application.isPlaying)
             Debug.Log($"R4 controller enabled: initialized={initialized}, room={(ring == null ? -1 : ring.CurrentRoom)}", this);
     }
@@ -81,7 +85,7 @@ public sealed class R4FlowController : MonoBehaviour
             if (exit != null) exitPortalCollider = exit.GetComponent<BoxCollider2D>();
         }
         if (ring == null || r4Database == null || player == null || playerBody == null || mapFadeOverlay == null ||
-            classroomBackground == null || roomLabel == null || classroomSet == null || facelessCrowd == null ||
+            classroomBackground == null || classroomSet == null || facelessCrowd == null ||
             classroomBrother == null || yingYing == null || doctor == null || mazeSet == null ||
             mazeBrother == null || lostItem == null || blackoutRenderer == null ||
             exitPortalCollider == null || backPortalCollider == null)
@@ -97,6 +101,7 @@ public sealed class R4FlowController : MonoBehaviour
 
     private void EnsureBlackoutVisual()
     {
+        if (!blackoutRenderer.gameObject.activeSelf) blackoutRenderer.gameObject.SetActive(true);
         if (blackoutRenderer.sprite == null)
         {
             Texture2D texture = Texture2D.whiteTexture;
@@ -112,6 +117,7 @@ public sealed class R4FlowController : MonoBehaviour
     private void PrepareRoomEntry()
     {
         entered = true;
+        SetBlackAlpha(0f);
         Debug.Log($"R4 room entered: stage={stage}", this);
         ApplyStageVisuals();
         if (stage == Stage.ClassroomAccusation)
@@ -304,7 +310,7 @@ public sealed class R4FlowController : MonoBehaviour
     {
         bool maze = stage == Stage.MazePlea || stage == Stage.MazeExplore || stage == Stage.MazeReturn;
         classroomBackground.SetActive(!maze);
-        roomLabel.SetActive(!maze);
+        if (roomLabel != null) roomLabel.SetActive(!maze);
         classroomSet.SetActive(!maze);
         mazeSet.SetActive(maze);
         facelessCrowd.SetActive(stage == Stage.ClassroomAccusation);
