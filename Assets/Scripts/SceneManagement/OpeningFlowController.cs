@@ -120,4 +120,8 @@ public sealed class OpeningFlowController : MonoBehaviour
         if (sceneFader != null) yield return sceneFader.FadeOut();
         SceneManager.LoadScene(nextSceneName);
     }
+    public void xxx()
+    {
+        SceneManager.LoadScene(nextSceneName);
+    }
 }
