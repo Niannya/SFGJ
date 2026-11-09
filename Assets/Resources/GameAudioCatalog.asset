@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5303b2f6b6a64ee798b1c70f01cd790e, type: 3}
+  m_Name: GameAudioCatalog
+  m_EditorClassIdentifier:
+  mainMenu: {fileID: 8300000, guid: 9cda4a249c78a4e428157fed8968038b, type: 3}
+  prologueEpilogue: {fileID: 8300000, guid: 060bf5fa96e42a1429857f1fd9943dca, type: 3}
+  innerWorld: {fileID: 8300000, guid: 706e06ad1027b57419be6f3d47e429a0, type: 3}
+  treatmentRoom: {fileID: 8300000, guid: 0f1f0090e93594f4e997828f9bf11720, type: 3}
+  storyRoom: {fileID: 8300000, guid: b81359b86299439498cd4589b4283da6, type: 3}
+  classroom: {fileID: 8300000, guid: 899ea5fe0a672fa45a5be5cffe696687, type: 3}
+  amusement: {fileID: 8300000, guid: 95d2e7b76209be04ebeb07b6e47d89fb, type: 3}
+  bedroomDepressed: {fileID: 8300000, guid: f0948a86f2ddc7e4e998f1ca6d0db38a, type: 3}
+  bedroomBright: {fileID: 8300000, guid: 2219c81f32e408449aaf5bf595ced99d, type: 3}
+  uiClick: {fileID: 8300000, guid: e1a96cbb2e4f31645a7806fdb08fae98, type: 3}
+  crowd: {fileID: 8300000, guid: 0c8510d032c49ae4fa79cfecb8cc7a6d, type: 3}
+  balloon: {fileID: 8300000, guid: f957faf3c656ca4428bfbd9989c46c15, type: 3}
+  footstep: {fileID: 8300000, guid: 365d1d4c381d3d248b3071a844e14ed1, type: 3}
+  whoosh: {fileID: 8300000, guid: cbdb137a3ea0d444ead783d157aea3ca, type: 3}
